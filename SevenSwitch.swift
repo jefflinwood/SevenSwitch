@@ -146,6 +146,16 @@ import QuartzCore
     }
     
     /*
+     *   Sets the image that shows on the switch thumb.
+     */
+    @IBInspectable public var thumbImage: UIImage! {
+        willSet {
+            onThumbImageView.image = newValue
+            offThumbImageView.image = newValue
+        }
+    }
+    
+    /*
     *   Sets the image that shows on the switch thumb when the switch is on.
     */
     @IBInspectable public var onThumbImage: UIImage! {
