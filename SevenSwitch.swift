@@ -146,11 +146,20 @@ import QuartzCore
     }
     
     /*
-    *   Sets the image that shows on the switch thumb.
+    *   Sets the image that shows on the switch thumb when the switch is on.
     */
-    @IBInspectable public var thumbImage: UIImage! {
+    @IBInspectable public var onThumbImage: UIImage! {
         willSet {
-            thumbImageView.image = newValue
+            onThumbImageView.image = newValue
+        }
+    }
+    
+    /*
+     *   Sets the image that shows on the switch thumb when the switch is off.
+     */
+    @IBInspectable public var offThumbImage: UIImage! {
+        willSet {
+            offThumbImageView.image = newValue
         }
     }
     
@@ -198,7 +207,9 @@ import QuartzCore
     internal var thumbView: UIView!
     internal var onImageView: UIImageView!
     internal var offImageView: UIImageView!
-    internal var thumbImageView: UIImageView!
+    internal var onThumbImageView: UIImageView!
+    internal var offThumbImageView: UIImageView!
+
     // private
     private var currentVisualValue: Bool = false
     private var startTrackingValue: Bool = false
@@ -280,11 +291,16 @@ import QuartzCore
         thumbView.userInteractionEnabled = false
         self.addSubview(thumbView)
         
-        // thumb image
-        self.thumbImageView = UIImageView(frame: CGRectMake(0, 0, thumbView.frame.size.width, thumbView.frame.size.height))
-        thumbImageView.contentMode = UIViewContentMode.Center
-        thumbImageView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
-        thumbView.addSubview(thumbImageView)
+        // thumb images
+        self.onThumbImageView = UIImageView(frame: CGRectMake(0, 0, thumbView.frame.size.width, thumbView.frame.size.height))
+        onThumbImageView.contentMode = UIViewContentMode.Center
+        onThumbImageView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        thumbView.addSubview(onThumbImageView)
+
+        self.offThumbImageView = UIImageView(frame: CGRectMake(0, 0, thumbView.frame.size.width, thumbView.frame.size.height))
+        offThumbImageView.contentMode = UIViewContentMode.Center
+        offThumbImageView.autoresizingMask = UIViewAutoresizing.FlexibleWidth
+        thumbView.addSubview(offThumbImageView)
     
         self.on = false
     }
@@ -445,6 +461,8 @@ import QuartzCore
                 self.offImageView.alpha = 0
                 self.onLabel.alpha = 1.0
                 self.offLabel.alpha = 0
+                self.onThumbImageView.alpha = 1.0
+                self.offThumbImageView.alpha = 0
             }, completion: { finished in
                 self.isAnimating = false
             })
@@ -464,6 +482,8 @@ import QuartzCore
             offImageView.alpha = 0
             onLabel.alpha = 1.0
             offLabel.alpha = 0
+            onThumbImageView.alpha = 1.0
+            offThumbImageView.alpha = 0
         }
         
         currentVisualValue = true
@@ -495,7 +515,8 @@ import QuartzCore
                 self.offImageView.alpha = 1.0
                 self.onLabel.alpha = 0
                 self.offLabel.alpha = 1.0
-                
+                self.onThumbImageView.alpha = 0
+                self.offThumbImageView.alpha = 1.0
             }, completion: { finished in
                 self.isAnimating = false
             })
@@ -515,6 +536,8 @@ import QuartzCore
             offImageView.alpha = 1.0
             onLabel.alpha = 0
             offLabel.alpha = 1.0
+            onThumbImageView.alpha = 0
+            offThumbImageView.alpha = 1.0
         }
         
         currentVisualValue = false
